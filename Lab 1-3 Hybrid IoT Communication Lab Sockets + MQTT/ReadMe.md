@@ -54,16 +54,14 @@ edge_device.py
 ---
 
 ## Results
+Socket Communication Screenshot  
+![Socket](socket_communication.png)
 
-Socket Communication Screenshot
-socket_communication.png
+MQTT Communication Screenshot  
+![MQTT](mqtt_communication.png)
 
-MQTT Communication Screenshot
-mqtt_communication.png
-
-Full Pipeline Screenshot
-full_pipeline.png
-
+Full Pipeline Screenshot  
+![Pipeline](full_pipeline.png)
 ---
 
 ## Learning Outcomes
