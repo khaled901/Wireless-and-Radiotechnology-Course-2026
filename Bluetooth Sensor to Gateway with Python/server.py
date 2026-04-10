@@ -1,24 +1,38 @@
 import socket
 
-server = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
-server.bind(("00:FF:4C:63:3B:CB", 4))
-server.listen(1)
+PORT = 4
 
-print("Waiting for Bluetooth client connection...")
+def main():
+    server = socket.socket(
+        socket.AF_BLUETOOTH,
+        socket.SOCK_STREAM,
+        socket.BTPROTO_RFCOMM
+    )
 
-client, addr = server.accept()
-print(f"Connected to: {addr}")
+    try:
+        server.bind(("", PORT))
+        server.listen(1)
 
-try:
-    while True:
-        data = client.recv(1024)
-        if not data:
-            break
+        print("Waiting for Bluetooth client connection...")
 
-        print("Received:", data.decode("utf-8"))
+        client, addr = server.accept()
+        print(f"Connected to: {addr}")
 
-except OSError:
-    pass
+        while True:
+            data = client.recv(1024)
+            if not data:
+                break
 
-client.close()
-server.close()
+            print("Received:", data.decode("utf-8"))
+
+        client.close()
+
+    except OSError as e:
+        print("Bluetooth server error:", e)
+
+    finally:
+        server.close()
+        print("Server closed.")
+
+if __name__ == "__main__":
+    main()
