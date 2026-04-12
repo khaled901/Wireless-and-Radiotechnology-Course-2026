@@ -2,34 +2,28 @@ import socket
 import random
 import time
 
-# استبدل هذا بعنوان Bluetooth MAC الخاص بالسيرفر
-SERVER_MAC_ADDRESS = "40-23-43-82-EA-32"
-PORT = 4
+server_mac = "40:23:43:82:EA:32"
+port = 8
 
-def main():
-    client = socket.socket(
-        socket.AF_BLUETOOTH,
-        socket.SOCK_STREAM,
-        socket.BTPROTO_RFCOMM
-    )
+client = socket.socket(
+    socket.AF_BLUETOOTH,
+    socket.SOCK_STREAM,
+    socket.BTPROTO_RFCOMM
+)
 
-    try:
-        client.connect((SERVER_MAC_ADDRESS, PORT))
-        print("Connected to Bluetooth server")
+client.connect((server_mac, port))
 
-        while True:
-            temperature = round(random.uniform(20.0, 30.0), 1)
-            message = f"Temperature: {temperature} C"
-            client.send(message.encode("utf-8"))
-            print("Sent:", message)
-            time.sleep(5)
+print("Connected to Bluetooth server")
 
-    except OSError as e:
-        print("Bluetooth client error:", e)
+try:
+    while True:
+        temperature = round(random.uniform(20.0, 30.0), 1)
+        message = f"Temperature: {temperature} C"
+        client.send(message.encode("utf-8"))
+        print("Sent:", message)
+        time.sleep(5)
 
-    finally:
-        client.close()
-        print("Client closed.")
+except OSError:
+    print("Connection closed.")
 
-if __name__ == "__main__":
-    main()
+client.close()
